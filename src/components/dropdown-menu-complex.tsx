@@ -81,7 +81,7 @@ export function DropdownMenuComplex({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-72 border-[hsl(var(--primary))]/20 bg-[hsl(var(--card))] text-[hsl(var(--foreground))] shadow-[0_20px_45px_hsl(var(--foreground)/0.18)]"
+        className="w-72 border border-[hsl(var(--border))] bg-[hsl(var(--card))]/95 text-[hsl(var(--foreground))] shadow-[0_10px_24px_hsl(var(--foreground)/0.08)] backdrop-blur-sm"
         align="end"
       >
         <DropdownMenuGroup>
@@ -121,12 +121,12 @@ export function DropdownMenuComplex({
             <DropdownMenuShortcut>⇧⌘N</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger className="rounded-md px-2.5 py-1.5 hover:bg-[hsl(var(--muted))] data-[state=open]:bg-[hsl(var(--muted))]">
               <FolderOpen />
               Open Recent
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent className="w-60 border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_24px_hsl(var(--foreground)/0.08)]">
                 <DropdownMenuGroup>
                   <DropdownMenuLabel>Recent Projects</DropdownMenuLabel>
                   <DropdownMenuItem>
@@ -138,12 +138,12 @@ export function DropdownMenuComplex({
                     Project Beta
                   </DropdownMenuItem>
                   <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
+                    <DropdownMenuSubTrigger className="rounded-md px-2.5 py-1.5 hover:bg-[hsl(var(--muted))] data-[state=open]:bg-[hsl(var(--muted))]">
                       <MoreHorizontal />
                       More Projects
                     </DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
-                      <DropdownMenuSubContent>
+                      <DropdownMenuSubContent className="w-52 border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_24px_hsl(var(--foreground)/0.08)]">
                         <DropdownMenuItem>
                           <FileCode />
                           Project Gamma
@@ -202,12 +202,12 @@ export function DropdownMenuComplex({
             Show Status Bar
           </DropdownMenuCheckboxItem>
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger className="rounded-md px-2.5 py-1.5 hover:bg-[hsl(var(--muted))] data-[state=open]:bg-[hsl(var(--muted))]">
               <Palette />
               Theme
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent className="w-52 border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_24px_hsl(var(--foreground)/0.08)]">
                 <DropdownMenuGroup>
                   <DropdownMenuLabel className="font-mono text-[10px] uppercase tracking-[.14em] text-[hsl(var(--accent))]">Appearance</DropdownMenuLabel>
                   <DropdownMenuRadioGroup
@@ -247,12 +247,12 @@ export function DropdownMenuComplex({
             Billing
           </DropdownMenuItem>
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger className="rounded-md px-2.5 py-1.5 hover:bg-[hsl(var(--muted))] data-[state=open]:bg-[hsl(var(--muted))]">
               <Settings />
               Settings
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent className="w-60 border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_24px_hsl(var(--foreground)/0.08)]">
                 <DropdownMenuGroup>
                   <DropdownMenuLabel className="font-mono text-[10px] uppercase tracking-[.14em] text-[hsl(var(--accent))]">Preferences</DropdownMenuLabel>
                   <DropdownMenuItem>
@@ -264,12 +264,12 @@ export function DropdownMenuComplex({
                     Language
                   </DropdownMenuItem>
                   <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
+                    <DropdownMenuSubTrigger className="rounded-md px-2.5 py-1.5 hover:bg-[hsl(var(--muted))] data-[state=open]:bg-[hsl(var(--muted))]">
                       <Bell />
                       Notifications
                     </DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
-                      <DropdownMenuSubContent>
+                      <DropdownMenuSubContent className="w-56 border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_10px_24px_hsl(var(--foreground)/0.08)]">
                         <DropdownMenuGroup>
                           <DropdownMenuLabel className="font-mono text-[10px] uppercase tracking-[.14em] text-[hsl(var(--accent))]">Notification Types</DropdownMenuLabel>
                           <DropdownMenuCheckboxItem

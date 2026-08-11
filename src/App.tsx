@@ -151,31 +151,31 @@ function Home() {
 
   return (
     <div className="app-noise min-h-[100dvh] bg-[hsl(var(--background))]">
-      <aside className={`no-print fixed inset-y-0 left-0 z-40 flex w-[272px] flex-col bg-[hsl(var(--sidebar))] px-5 py-6 text-[hsl(var(--sidebar-foreground))] transition-transform duration-300 lg:translate-x-0 ${mobileNav ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`no-print fixed inset-y-0 left-0 z-40 flex w-[290px] flex-col bg-[hsl(var(--sidebar))] px-6 py-7 text-[hsl(var(--sidebar-foreground))] transition-transform duration-300 lg:translate-x-0 ${mobileNav ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center justify-between px-2">
           <button data-testid="button-brand" onClick={() => switchDoc('resume')} className="flex items-center gap-3 text-left">
             <span className="flex h-9 w-9 items-center justify-center bg-[hsl(var(--secondary))] text-[hsl(var(--secondary-foreground))]"><Sparkles size={18} strokeWidth={2.5} /></span>
-            <span><b className="font-[var(--app-font-serif)] text-lg tracking-tight">Form Studio</b><small className="block font-mono text-[9px] uppercase tracking-[.18em] text-white/45">ruang kerja peribadi</small></span>
+            <span><b className="font-[var(--app-font-serif)] text-lg tracking-tight">Form Studio</b><small className="block font-mono text-[9px] uppercase tracking-[.18em] text-[hsl(var(--sidebar-foreground))]/45">ruang kerja peribadi</small></span>
           </button>
-          <button data-testid="button-close-nav" onClick={() => setMobileNav(false)} className="text-white/60 lg:hidden"><X size={19} /></button>
+          <button data-testid="button-close-nav" onClick={() => setMobileNav(false)} className="text-[hsl(var(--sidebar-foreground))]/60 lg:hidden"><X size={19} /></button>
         </div>
-        <div className="mt-12 px-2"><p className="font-mono text-[10px] uppercase tracking-[.2em] text-white/40">Form</p></div>
-        <nav aria-label="Menu Form" className="mt-3 ml-2 space-y-1 border-l border-white/10 pl-2">
-          <button data-testid="button-switch-resume" onClick={() => switchDoc('resume')} className={`group flex w-full items-center gap-3 px-3 py-3 text-left text-sm transition ${doc === 'resume' ? 'bg-white/10 text-white' : 'text-white/65 hover:bg-white/5 hover:text-white'}`}>
+        <div className="mt-12 px-2"><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--sidebar-foreground))]/40">Form</p></div>
+        <nav aria-label="Menu Form" className="mt-4 ml-2 space-y-1.5 border-l border-[hsl(var(--sidebar-foreground))]/10 pl-2">
+          <button data-testid="button-switch-resume" onClick={() => switchDoc('resume')} className={`group flex w-full items-center gap-3 px-3.5 py-3.5 text-left text-sm transition ${doc === 'resume' ? 'bg-[hsl(var(--sidebar-foreground))]/10 text-[hsl(var(--sidebar-foreground))]' : 'text-[hsl(var(--sidebar-foreground))]/70 hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]'}`}>
             <FileUser size={18} className={doc === 'resume' ? 'text-[hsl(var(--secondary))]' : ''} /><span className="flex-1">Resume</span><ArrowUpRight size={14} className="opacity-40" />
           </button>
-          <button data-testid="button-switch-resign" onClick={() => switchDoc('resign')} className={`group flex w-full items-center gap-3 px-3 py-3 text-left text-sm transition ${doc === 'resign' ? 'bg-white/10 text-white' : 'text-white/65 hover:bg-white/5 hover:text-white'}`}>
+          <button data-testid="button-switch-resign" onClick={() => switchDoc('resign')} className={`group flex w-full items-center gap-3 px-3.5 py-3.5 text-left text-sm transition ${doc === 'resign' ? 'bg-[hsl(var(--sidebar-foreground))]/10 text-[hsl(var(--sidebar-foreground))]' : 'text-[hsl(var(--sidebar-foreground))]/70 hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]'}`}>
             <FileText size={18} className={doc === 'resign' ? 'text-[hsl(var(--secondary))]' : ''} /><span className="flex-1">Resign</span><ArrowUpRight size={14} className="opacity-40" />
           </button>
         </nav>
-        <div className="mt-auto border-t border-white/10 pt-5">
-          <button data-testid="button-help" onClick={() => setShowHelp(true)} className="flex w-full items-center gap-3 px-3 py-2 text-sm text-white/55 hover:text-white"><span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/35 text-[11px]">?</span> Cara menggunakan Form Studio</button>
-          <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5"><Avatar src={resume.profilePicture} name={resume.name || 'NA'} size="small" /><div><p className="text-sm font-semibold">{resume.name || 'Profil anda'}</p><p className="font-mono text-[10px] text-white/40">disimpan setempat</p></div><MoreHorizontal size={17} className="ml-auto text-white/40" /></div>
+        <div className="mt-auto border-t border-[hsl(var(--sidebar-foreground))]/10 pt-5">
+          <button data-testid="button-help" onClick={() => setShowHelp(true)} className="flex w-full items-center gap-3 px-3 py-2 text-sm text-[hsl(var(--sidebar-foreground))]/60 hover:text-[hsl(var(--sidebar-foreground))]"><span className="flex h-5 w-5 items-center justify-center rounded-full border border-[hsl(var(--sidebar-foreground))]/35 text-[11px]">?</span> Cara menggunakan Form Studio</button>
+          <div className="mt-6 flex items-center gap-3 border-t border-[hsl(var(--sidebar-foreground))]/10 pt-5"><Avatar src={resume.profilePicture} name={resume.name || 'NA'} size="small" /><div><p className="text-sm font-semibold">{resume.name || 'Profil anda'}</p><p className="font-mono text-[10px] text-[hsl(var(--sidebar-foreground))]/40">disimpan setempat</p></div><MoreHorizontal size={17} className="ml-auto text-[hsl(var(--sidebar-foreground))]/40" /></div>
         </div>
       </aside>
       {mobileNav && <button data-testid="button-overlay-nav" onClick={() => setMobileNav(false)} className="no-print fixed inset-0 z-30 bg-[hsl(var(--foreground))]/40 lg:hidden" aria-label="Tutup navigasi" />}
-      <main className="min-h-[100dvh] lg:pl-[272px]">
-        <header className="no-print sticky top-0 z-20 flex h-[74px] items-center justify-between border-b border-[hsl(var(--border))] bg-[hsl(var(--background))]/85 px-5 backdrop-blur md:px-10">
+      <main className="min-h-[100dvh] lg:pl-[290px]">
+        <header className="no-print sticky top-0 z-20 flex h-[82px] items-center justify-between border-b border-[hsl(var(--border))] bg-[hsl(var(--background))]/85 px-6 backdrop-blur md:px-10">
           <button data-testid="button-open-nav" onClick={() => setMobileNav(true)} className="text-[hsl(var(--muted-foreground))] lg:hidden"><Menu size={22} /></button>
           <div className="ml-auto flex items-center gap-2">
             <DropdownMenuComplex
@@ -186,12 +186,12 @@ function Home() {
             />
           </div>
         </header>
-        <div className="mx-auto max-w-[1500px] px-5 py-8 md:px-10 md:py-11">
-          <div className="fade-up flex flex-col justify-between gap-5 border-b border-[hsl(var(--border))] pb-7 md:flex-row md:items-end">
-            <div><h1 className="font-[var(--app-font-serif)] text-xl font-extrabold tracking-[-.04em] md:text-3xl">{title}</h1><p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">{subtitle}</p></div>
+        <div className="mx-auto max-w-[1500px] px-6 py-9 md:px-10 md:py-12">
+          <div className="fade-up flex flex-col justify-between gap-5 border-b border-[hsl(var(--border))] pb-8 md:flex-row md:items-end">
+            <div><h1 className="font-[var(--app-font-serif)] text-2xl font-extrabold tracking-[-.04em] md:text-[2.25rem]">{title}</h1><p className="mt-2 text-sm text-[hsl(var(--muted-foreground))] md:text-base">{subtitle}</p></div>
           </div>
-          <div className="mt-8 grid gap-10 xl:grid-cols-[minmax(360px,470px)_minmax(500px,1fr)]">
-            <section className="fade-up delay-1 space-y-7">
+          <div className="mt-10 grid gap-12 xl:grid-cols-[minmax(380px,500px)_minmax(540px,1fr)]">
+            <section className="fade-up delay-1 space-y-8">
               <div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[.18em] text-[hsl(var(--muted-foreground))]">Maklumat {doc === 'resume' ? 'utama' : 'surat'}</p><span className="font-mono text-[10px] text-[hsl(var(--muted-foreground))]">{currentFilled ? '01 / 02' : '00 / 02'}</span></div>
               {doc === 'resume' ? <ResumeForm data={resume} setField={setField} setProfilePicture={setProfilePicture} /> : <ResignForm data={resign} setField={setField} />}
               <div className="border-l-2 border-[hsl(var(--secondary))] bg-[hsl(var(--secondary))]/25 px-4 py-3 text-xs leading-relaxed"><b className="font-semibold">Petua kecil</b><br />Tulis seperti anda bercakap dengan seseorang yang anda hormati. Jelas, ringkas, dan yakin.</div>
@@ -212,7 +212,7 @@ function Home() {
 
 function Field({ label, value, onChange, placeholder, multiline = false }: { label: string; value: string; onChange: (value: string) => void; placeholder: string; multiline?: boolean }) {
   const Tag = multiline ? 'textarea' : 'input';
-  return <label className="block"><span className="mb-2 block text-xs font-bold">{label}</span><Tag data-testid={`input-${label.toLowerCase().replace(/\s+/g, '-')}`} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} className={`w-full border border-[hsl(var(--input))] bg-[hsl(var(--card))] px-3.5 py-3 text-sm outline-none transition placeholder:text-[hsl(var(--muted-foreground))]/60 focus:border-[hsl(var(--primary))] focus:ring-2 focus:ring-[hsl(var(--primary))]/10 ${multiline ? 'min-h-[106px] resize-y leading-relaxed' : ''}`} /></label>;
+  return <label className="block"><span className="mb-2.5 block text-xs font-bold">{label}</span><Tag data-testid={`input-${label.toLowerCase().replace(/\s+/g, '-')}`} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} className={`w-full border border-[hsl(var(--input))] bg-[hsl(var(--card))] px-4 py-3.5 text-sm outline-none transition placeholder:text-[hsl(var(--muted-foreground))]/60 focus:border-[hsl(var(--primary))] focus:ring-2 focus:ring-[hsl(var(--primary))]/10 ${multiline ? 'min-h-[120px] resize-y leading-relaxed' : 'h-12'} ${multiline ? '' : 'text-base'}`} /></label>;
 }
 
 function ResumeForm({ data, setField, setProfilePicture }: { data: Resume; setField: (field: string, value: string) => void; setProfilePicture: (value: string) => void }) {
@@ -233,7 +233,7 @@ function Avatar({ src, name, size }: { src?: string; name: string; size: 'small'
 }
 
 function ResignForm({ data, setField }: { data: Resign; setField: (field: string, value: string) => void }) {
-  return <div className="space-y-5"><div className="grid gap-5 sm:grid-cols-2"><Field label="Tarikh surat" value={data.date} onChange={(value) => setField('date', value)} placeholder="12 Jun 2024" /><Field label="Tarikh akhir bekerja" value={data.finalDay} onChange={(value) => setField('finalDay', value)} placeholder="12 Julai 2024" /></div><Field label="Kepada" value={data.recipient} onChange={(value) => setField('recipient', value)} placeholder="Nama pengurus atau HR" /><Field label="Nama syarikat" value={data.company} onChange={(value) => setField('company', value)} placeholder="Nama syarikat" /><Field label="Jawatan anda" value={data.role} onChange={(value) => setField('role', value)} placeholder="Jawatan semasa" /><Field label="Sebab ringkas" value={data.reason} onChange={(value) => setField('reason', value)} placeholder="Peluang baharu yang lebih selari..." multiline /><Field label="Nota penghargaan" value={data.message} onChange={(value) => setField('message', value)} placeholder="Terima kasih atas segala pengalaman..." multiline /></div>;
+  return <div className="space-y-6"><div className="grid gap-5 sm:grid-cols-2"><Field label="Tarikh surat" value={data.date} onChange={(value) => setField('date', value)} placeholder="12 Jun 2024" /><Field label="Tarikh akhir bekerja" value={data.finalDay} onChange={(value) => setField('finalDay', value)} placeholder="12 Julai 2024" /></div><Field label="Kepada" value={data.recipient} onChange={(value) => setField('recipient', value)} placeholder="Nama pengurus atau HR" /><Field label="Nama syarikat" value={data.company} onChange={(value) => setField('company', value)} placeholder="Nama syarikat" /><Field label="Jawatan anda" value={data.role} onChange={(value) => setField('role', value)} placeholder="Jawatan semasa" /><Field label="Sebab ringkas" value={data.reason} onChange={(value) => setField('reason', value)} placeholder="Peluang baharu yang lebih selari..." multiline /><Field label="Nota penghargaan" value={data.message} onChange={(value) => setField('message', value)} placeholder="Terima kasih atas segala pengalaman..." multiline /></div>;
 }
 
 function EmptyPreview({ type }: { type: DocType }) {
@@ -242,7 +242,7 @@ function EmptyPreview({ type }: { type: DocType }) {
 
 function ResumePreview({ data }: { data: Resume }) {
   if (!Object.values(data).some(Boolean)) return <EmptyPreview type="resume" />;
-  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-12"><div className="border-b-2 border-[hsl(var(--foreground))] pb-6"><div className="flex items-start gap-2"><div className="w-20 shrink-0"><Avatar src={data.profilePicture} name={data.name || 'NA'} size="large" /></div><div className="min-w-0 pt-1"><h2 data-testid="text-preview-name" className="font-[var(--app-font-serif)] text-base font-bold">{data.name || 'Nama penuh anda'}</h2><p className="mt-0.5 text-base font-semibold text-[hsl(var(--primary))]">{data.role || 'Jawatan sasaran'}</p></div></div><div className="mt-5 text-[10px] leading-tight text-[hsl(var(--muted-foreground))]"><div className="flex flex-wrap items-center gap-x-5 gap-y-2"><ContactLine icon={<Phone size={11} />} value={data.phone} fallback="Telefon" /><ContactLine icon={<Mail size={11} />} value={data.email} fallback="Email" /></div><div className="mt-2"><ContactLine icon={<MapPin size={11} />} value={data.location} fallback="Alamat" /></div></div></div><PreviewBlock title="Profil" text={data.about} /><PreviewBlock title="Pendidikan" text={data.education} /><PreviewBlock title="Pengalaman" text={data.experience} /><PreviewBlock title="Kemahiran" text={data.skills} /></article>;
+  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-14"><div className="border-b-2 border-[hsl(var(--foreground))] pb-7"><div className="flex items-start gap-3"><div className="w-20 shrink-0"><Avatar src={data.profilePicture} name={data.name || 'NA'} size="large" /></div><div className="min-w-0 pt-1"><h2 data-testid="text-preview-name" className="font-[var(--app-font-serif)] text-lg font-bold">{data.name || 'Nama penuh anda'}</h2><p className="mt-1 text-base font-semibold text-[hsl(var(--primary))]">{data.role || 'Jawatan sasaran'}</p></div></div><div className="mt-5 text-[10px] leading-tight text-[hsl(var(--muted-foreground))]"><div className="flex flex-wrap items-center gap-x-5 gap-y-2"><ContactLine icon={<Phone size={11} />} value={data.phone} fallback="Telefon" /><ContactLine icon={<Mail size={11} />} value={data.email} fallback="Email" /></div><div className="mt-2"><ContactLine icon={<MapPin size={11} />} value={data.location} fallback="Alamat" /></div></div></div><PreviewBlock title="Profil" text={data.about} /><PreviewBlock title="Pendidikan" text={data.education} /><PreviewBlock title="Pengalaman" text={data.experience} /><PreviewBlock title="Kemahiran" text={data.skills} /></article>;
 }
 
 function ContactLine({ icon, value, fallback }: { icon: ReactNode; value: string; fallback: string }) {
@@ -256,7 +256,7 @@ function PreviewBlock({ title, text }: { title: string; text: string }) {
 
 function ResignPreview({ data }: { data: Resign }) {
   if (!Object.values(data).some(Boolean)) return <EmptyPreview type="resign" />;
-  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-14"><div className="flex justify-between gap-5 border-b border-[hsl(var(--border))] pb-8"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--accent))]">Surat rasmi</p><h2 className="mt-2 font-[var(--app-font-serif)] text-2xl font-extrabold">Notis peletakan jawatan</h2></div><p className="text-right text-xs text-[hsl(var(--muted-foreground))]">{data.date || 'Tarikh surat'}</p></div><div className="mt-8 text-sm leading-7"><p className="font-semibold">{data.recipient || 'Nama penerima'}</p><p>{data.company || 'Nama syarikat'}</p><p className="mt-7">Tuan/Puan,</p><p className="mt-5 font-bold">PER: PELETAKAN JAWATAN SEBAGAI {data.role || 'JAWATAN'}</p><p className="mt-5">Dengan segala hormatnya, saya ingin memaklumkan keputusan untuk meletakkan jawatan sebagai <b>{data.role || 'jawatan semasa'}</b> di {data.company || 'syarikat ini'}. Hari terakhir saya ialah <b>{data.finalDay || 'tarikh akhir'}</b>.</p><p className="mt-5">{data.reason || 'Saya telah membuat keputusan untuk meneruskan peluang baharu.'}</p><p className="mt-5">{data.message || 'Terima kasih atas segala kepercayaan dan pengalaman yang telah diberikan.'}</p><p className="mt-7">Sekian, terima kasih.</p><p className="mt-8 font-semibold">{data.recipient || 'Nama anda'}</p></div></article>;
+  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-14"><div className="flex justify-between gap-5 border-b border-[hsl(var(--border))] pb-8"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--accent))]">Surat rasmi</p><h2 className="mt-2 font-[var(--app-font-serif)] text-2xl font-extrabold">Notis peletakan jawatan</h2></div><p className="text-right text-xs text-[hsl(var(--muted-foreground))]">{data.date || 'Tarikh surat'}</p></div><div className="mt-8 text-[15px] leading-8"><p className="font-semibold">{data.recipient || 'Nama penerima'}</p><p>{data.company || 'Nama syarikat'}</p><p className="mt-7">Tuan/Puan,</p><p className="mt-5 font-bold">PER: PELETAKAN JAWATAN SEBAGAI {data.role || 'JAWATAN'}</p><p className="mt-5">Dengan segala hormatnya, saya ingin memaklumkan keputusan untuk meletakkan jawatan sebagai <b>{data.role || 'jawatan semasa'}</b> di {data.company || 'syarikat ini'}. Hari terakhir saya ialah <b>{data.finalDay || 'tarikh akhir'}</b>.</p><p className="mt-5">{data.reason || 'Saya telah membuat keputusan untuk meneruskan peluang baharu.'}</p><p className="mt-5">{data.message || 'Terima kasih atas segala kepercayaan dan pengalaman yang telah diberikan.'}</p><p className="mt-7">Sekian, terima kasih.</p><p className="mt-8 font-semibold">{data.recipient || 'Nama anda'}</p></div></article>;
 }
 
 function Dialog({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {

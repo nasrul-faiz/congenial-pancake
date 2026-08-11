@@ -28,81 +28,103 @@
 }
 
 :root {
-  --background: 42 33% 95%;
-  --foreground: 220 27% 16%;
-  --border: 39 22% 85%;
-  --card: 42 40% 98%;
-  --card-foreground: 220 27% 16%;
-  --card-border: 39 22% 85%;
-  --sidebar: 220 27% 16%;
-  --sidebar-foreground: 42 40% 98%;
-  --primary: 220 83% 45%;
-  --primary-foreground: 42 40% 98%;
-  --secondary: 52 96% 61%;
-  --secondary-foreground: 220 27% 16%;
-  --muted: 40 27% 90%;
-  --muted-foreground: 220 12% 44%;
-  --accent: 9 75% 58%;
-  --accent-foreground: 42 40% 98%;
-  --destructive: 5 68% 46%;
-  --destructive-foreground: 42 40% 98%;
-  --input: 39 22% 80%;
-  --ring: 220 83% 45%;
-  --app-font-sans: Arial, Helvetica, sans-serif;
-  --app-font-serif: Arial, Helvetica, sans-serif;
-  --app-font-mono: Arial, Helvetica, sans-serif;
-  --radius: 0.8rem;
+  --background: 216 40% 96%;
+  --foreground: 228 30% 12%;
+  --border: 220 22% 82%;
+  --card: 0 0% 100%;
+  --card-foreground: 228 30% 12%;
+  --card-border: 220 22% 82%;
+  --sidebar: 229 27% 9%;
+  --sidebar-foreground: 220 24% 97%;
+  --primary: 257 86% 64%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 41 99% 71%;
+  --secondary-foreground: 228 30% 12%;
+  --muted: 216 30% 95%;
+  --muted-foreground: 224 14% 34%;
+  --accent: 344 88% 68%;
+  --accent-foreground: 228 30% 12%;
+  --destructive: 7 72% 52%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 216 25% 91%;
+  --ring: 257 86% 64%;
+  --app-font-sans: 'Inter', 'Segoe UI', sans-serif;
+  --app-font-serif: 'Georgia', 'Times New Roman', serif;
+  --app-font-mono: 'SFMono-Regular', 'Consolas', monospace;
+  --radius: 0.85rem;
 }
 
 .dark {
-  --background: 220 27% 12%;
-  --foreground: 42 40% 98%;
-  --border: 220 20% 25%;
-  --card: 220 25% 16%;
-  --card-foreground: 42 40% 98%;
-  --card-border: 220 20% 25%;
-  --sidebar: 220 31% 9%;
-  --sidebar-foreground: 42 40% 98%;
-  --primary: 52 96% 61%;
-  --primary-foreground: 220 27% 16%;
-  --secondary: 220 22% 23%;
-  --secondary-foreground: 42 40% 98%;
-  --muted: 220 22% 23%;
-  --muted-foreground: 220 12% 70%;
-  --accent: 9 75% 58%;
-  --accent-foreground: 42 40% 98%;
-  --destructive: 5 68% 55%;
-  --destructive-foreground: 42 40% 98%;
-  --input: 220 20% 30%;
-  --ring: 52 96% 61%;
+  --background: 225 18% 14%;
+  --foreground: 45 40% 96%;
+  --border: 230 18% 25%;
+  --card: 225 18% 18%;
+  --card-foreground: 45 40% 96%;
+  --card-border: 230 18% 25%;
+  --sidebar: 225 21% 11%;
+  --sidebar-foreground: 45 40% 96%;
+  --primary: 210 90% 72%;
+  --primary-foreground: 225 18% 14%;
+  --secondary: 168 52% 60%;
+  --secondary-foreground: 225 20% 15%;
+  --muted: 225 18% 21%;
+  --muted-foreground: 225 14% 76%;
+  --accent: 349 84% 76%;
+  --accent-foreground: 225 20% 15%;
+  --destructive: 7 72% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 225 18% 28%;
+  --ring: 210 90% 72%;
 }
 
 * { box-sizing: border-box; }
-html { background: hsl(var(--background)); }
+html {
+  background: hsl(var(--background));
+  scroll-behavior: smooth;
+}
 body {
   margin: 0;
   min-width: 320px;
-  background: hsl(var(--background));
+  background:
+    radial-gradient(circle at top left, rgba(111, 90, 255, 0.14), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(255, 170, 89, 0.15), transparent 30%),
+    linear-gradient(180deg, #f7f8ff 0%, #edf3ff 100%);
   color: hsl(var(--foreground));
   font-family: var(--app-font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection {
+  background: hsla(223, 72%, 60%, 0.18);
+  color: hsl(var(--foreground));
 }
 button, input, textarea { font: inherit; }
-button { cursor: pointer; }
+button {
+  cursor: pointer;
+  transition: transform 0.18s ease, opacity 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px hsla(228, 30%, 12%, 0.1);
+}
+button:active { transform: translateY(0); }
 .app-noise::after {
   content: '';
   pointer-events: none;
   position: fixed;
   inset: 0;
-  opacity: .035;
+  opacity: 0;
   z-index: 50;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
 }
 .fade-up { animation: fadeUp .55s cubic-bezier(.2,.8,.2,1) both; }
 .delay-1 { animation-delay: .08s; }
 .delay-2 { animation-delay: .16s; }
 .delay-3 { animation-delay: .24s; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.print-page {
+  border-radius: 1.1rem;
+  box-shadow: 0 12px 28px hsla(224, 25%, 18%, 0.06);
+}
 @media print {
   .no-print { display: none !important; }
   body { background: white; }
