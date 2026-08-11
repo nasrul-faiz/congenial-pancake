@@ -175,7 +175,7 @@ function Home() {
       </aside>
       {mobileNav && <button data-testid="button-overlay-nav" onClick={() => setMobileNav(false)} className="no-print fixed inset-0 z-30 bg-[hsl(var(--foreground))]/40 lg:hidden" aria-label="Tutup navigasi" />}
       <main className="min-h-[100dvh] lg:pl-[290px]">
-        <header className="no-print sticky top-0 z-20 flex h-[82px] items-center justify-between border-b border-[hsl(var(--border))] bg-[hsl(var(--background))]/85 px-6 backdrop-blur md:px-10">
+        <header className="no-print sticky top-0 z-20 flex h-[82px] items-center justify-between border-b border-[hsl(var(--border))] bg-[hsl(var(--background))] px-6 md:px-10">
           <button data-testid="button-open-nav" onClick={() => setMobileNav(true)} className="text-[hsl(var(--muted-foreground))] lg:hidden"><Menu size={22} /></button>
           <div className="ml-auto flex items-center gap-2">
             <DropdownMenuComplex

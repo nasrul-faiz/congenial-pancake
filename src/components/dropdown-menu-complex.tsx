@@ -74,14 +74,14 @@ export function DropdownMenuComplex({
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="gap-2 border-[#bfc5cf] bg-gradient-to-b from-[#f2f4f7] to-[#d9dee7] text-[#384252] shadow-[inset_0_1px_0_#ffffff] hover:border-[#aeb6c2] hover:from-[#eceff4] hover:to-[#cfd5df]"
+          className="gap-2 border-[hsl(var(--border))] bg-[hsl(var(--card))] text-[hsl(var(--foreground))] shadow-none hover:border-[hsl(var(--border))] hover:bg-[hsl(var(--muted))]"
         >
           <Settings size={16} />
           Settings
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-72 border border-[hsl(var(--border))] bg-[hsl(var(--card))]/95 text-[hsl(var(--foreground))] shadow-[0_10px_24px_hsl(var(--foreground)/0.08)] backdrop-blur-sm"
+        className="w-72 border border-[hsl(var(--border))] bg-[hsl(var(--card))] text-[hsl(var(--foreground))] shadow-[0_12px_28px_hsl(var(--foreground)/0.08)]"
         align="end"
       >
         <DropdownMenuGroup>
