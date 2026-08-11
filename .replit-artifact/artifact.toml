@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Form Studio"
+description = "A polished Malay-first workspace for creating interview resumes and resignation letters, with responsive navigation, live previews, copy actions, and print-ready documents."
+version = "1.0.0"
+id = "artifacts/form-studio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22270
+
+[services.development]
+run = "pnpm --filter @workspace/form-studio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/form-studio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/form-studio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22270"
+BASE_PATH = "/"
