@@ -119,11 +119,24 @@ button:active { transform: translateY(0); }
 .delay-3 { animation-delay: .24s; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .print-page {
+  width: 100%;
+  max-width: 210mm;
+  min-height: 297mm;
   border-radius: 1.1rem;
   box-shadow: 0 12px 28px hsla(224, 25%, 18%, 0.06);
+}
+@page {
+  size: A4;
+  margin: 12mm;
 }
 @media print {
   .no-print { display: none !important; }
   body { background: white; }
-  .print-page { box-shadow: none !important; border: 0 !important; }
+  .print-page {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
 }

@@ -54,10 +54,19 @@ type Resign = {
   finalDay: string;
   reason: string;
   message: string;
+  name: string;
+};
+type SavedDocument = {
+  id: string;
+  type: DocType;
+  title: string;
+  createdAt: string;
+  data: Resume | Resign;
 };
 
 const blankResume: Resume = { profilePicture: '', name: '', role: '', email: '', phone: '', location: '', about: '', education: '', skills: '', experience: '' };
-const blankResign: Resign = { date: '', recipient: '', company: '', role: '', finalDay: '', reason: '', message: '' };
+const blankResign: Resign = { date: '', recipient: '', company: '', role: '', finalDay: '', reason: '', message: '', name: '' };
+const savedDocumentsKey = 'form-studio-saved-documents';
 const resumeDemo: Resume = {
   profilePicture: '',
   name: 'Nur Aisyah Rahman',
@@ -78,6 +87,7 @@ const resignDemo: Resign = {
   finalDay: '12 Julai 2024',
   reason: 'Saya telah membuat keputusan untuk meneruskan peluang baharu yang lebih selari dengan hala tuju kerjaya saya.',
   message: 'Saya ingin merakamkan penghargaan atas kepercayaan, bimbingan dan pengalaman yang telah diberikan sepanjang saya bersama pasukan ini. Saya akan memastikan proses serah tugas berjalan lancar dalam tempoh notis.',
+  name: 'Nur Aisyah Rahman',
 };
 
 function readStored<T>(key: string, fallback: T): T {
@@ -86,6 +96,113 @@ function readStored<T>(key: string, fallback: T): T {
   } catch {
     return fallback;
   }
+}
+
+function readSavedDocuments(): SavedDocument[] {
+  try {
+    return JSON.parse(localStorage.getItem(savedDocumentsKey) || '[]') || [];
+  } catch {
+    return [];
+  }
+}
+
+function writeSavedDocuments(items: SavedDocument[]) {
+  localStorage.setItem(savedDocumentsKey, JSON.stringify(items));
+}
+
+function getDocumentTitle(type: DocType, data: Resume | Resign) {
+  if (type === 'resume') {
+    return (data as Resume).name || 'Resume baru';
+  }
+  return (data as Resign).name || 'Surat berhenti kerja';
+}
+
+function saveCurrentDocument(type: DocType, data: Resume | Resign) {
+  const items = readSavedDocuments();
+  const newItem: SavedDocument = {
+    id: crypto.randomUUID(),
+    type,
+    title: getDocumentTitle(type, data),
+    createdAt: new Date().toISOString(),
+    data,
+  };
+  const updated = [newItem, ...items].slice(0, 20);
+  writeSavedDocuments(updated);
+  return updated;
+}
+
+function renderDocumentHtml(type: DocType, data: Resume | Resign) {
+  const safe = (value: string) => (value || '—').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  const commonCss = `
+    @page { size: A4; margin: 12mm; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      color: #111;
+      background: white;
+      line-height: 1.6;
+      letter-spacing: 0;
+    }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: white;
+      padding: 16mm 18mm;
+    }
+    h1, h2, h3 { margin: 0 0 10px; }
+    p { margin: 8px 0; }
+    .small { font-size: 12px; color: #666; }
+    .meta { color: #555; font-size: 14px; }
+    .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em; color: #666; margin-bottom: 8px; }
+    .bio { white-space: pre-line; }
+    .strong { font-weight: 700; }
+    .divider { height: 1px; background: #222; margin: 24px 0; }
+    .signature { margin-top: 40px; display: flex; justify-content: flex-end; }
+    .signature-box { width: 220px; text-align: center; }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { margin: 0; box-shadow: none; }
+    }
+  `;
+
+  if (type === 'resume') {
+    const resume = data as Resume;
+    return `
+      <html><head><meta charset="utf-8" /><title>${safe(resume.name || 'Resume')}</title><style>${commonCss}</style></head><body>
+        <div class="page">
+          <h1>${safe(resume.name || 'Nama penuh anda')}</h1>
+          <div class="meta">${safe(resume.role || 'Jawatan sasaran')}</div>
+          <div class="meta">${safe([resume.email, resume.phone, resume.location].filter(Boolean).join(' · '))}</div>
+          <section><div class="label">Profil</div><div class="bio">${safe(resume.about)}</div></section>
+          <section><div class="label">Pendidikan</div><div class="bio">${safe(resume.education)}</div></section>
+          <section><div class="label">Pengalaman</div><div class="bio">${safe(resume.experience)}</div></section>
+          <section><div class="label">Kemahiran</div><div class="bio">${safe(resume.skills)}</div></section>
+        </div>
+      </body></html>
+    `;
+  }
+
+  const resign = data as Resign;
+  return `
+    <html><head><meta charset="utf-8" /><title>${safe(resign.name || 'Surat berhenti kerja')}</title><style>${commonCss}</style></head><body>
+      <div class="page">
+        <div class="small">${safe(resign.date || 'Tarikh surat')}</div>
+        <h2>Notis peletakan jawatan</h2>
+        <p>${safe(resign.recipient || 'Nama penerima')}</p>
+        <p>${safe(resign.company || 'Nama syarikat')}</p>
+        <p>Tuan/Puan,</p>
+        <p class="strong text-center" style="text-align:center;">CC: PELETAKAN JAWATAN SEBAGAI ${safe(resign.role || 'JAWATAN')}</p>
+        <p>Dengan segala hormatnya, saya ingin memaklumkan keputusan untuk meletakkan jawatan sebagai <span class="strong">${safe(resign.role || 'jawatan semasa')}</span> di ${safe(resign.company || 'syarikat ini')}.</p>
+        <p>${safe(resign.reason || 'Saya telah membuat keputusan untuk meneruskan peluang baharu.')}</p>
+        <p>${safe(resign.message || 'Terima kasih atas segala pengalaman yang diberikan.')}</p>
+        <p>Sekian, terima kasih.</p>
+        <div class="signature"><div class="signature-box"><div class="divider"></div><div class="label">Tandatangan</div><div class="strong">${safe(resign.name || 'Nama anda')}</div></div></div>
+      </div>
+    </body></html>
+  `;
 }
 
 function Home() {
@@ -133,10 +250,16 @@ function Home() {
     notify('Kandungan disalin ke papan keratan.');
   };
   const save = () => {
+    if (!currentFilled) {
+      notify('Isi maklumat dokumen dahulu sebelum menyimpan.');
+      return;
+    }
+
     localStorage.setItem('form-studio-resume', JSON.stringify(resume));
     localStorage.setItem('form-studio-resign', JSON.stringify(resign));
+    saveCurrentDocument(doc, current);
     setSaved(true);
-    notify('Disimpan pada peranti ini.');
+    notify('Disimpan ke senarai pratonton.');
   };
   const switchDoc = (next: DocType) => {
     setDoc(next);
@@ -166,6 +289,9 @@ function Home() {
           </button>
           <button data-testid="button-switch-resign" onClick={() => switchDoc('resign')} className={`group flex w-full items-center gap-3 px-3.5 py-3.5 text-left text-sm transition ${doc === 'resign' ? 'bg-[hsl(var(--sidebar-foreground))]/10 text-[hsl(var(--sidebar-foreground))]' : 'text-[hsl(var(--sidebar-foreground))]/70 hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]'}`}>
             <FileText size={18} className={doc === 'resign' ? 'text-[hsl(var(--secondary))]' : ''} /><span className="flex-1">Resign</span><ArrowUpRight size={14} className="opacity-40" />
+          </button>
+          <button data-testid="button-open-saved" onClick={() => window.location.assign('/saved')} className="group flex w-full items-center gap-3 px-3.5 py-3.5 text-left text-sm text-[hsl(var(--sidebar-foreground))]/70 transition hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]">
+            <FileText size={18} /><span className="flex-1">Disimpan</span><ArrowUpRight size={14} className="opacity-40" />
           </button>
         </nav>
         <div className="mt-auto border-t border-[hsl(var(--sidebar-foreground))]/10 pt-5">
@@ -197,7 +323,7 @@ function Home() {
               <div className="border-l-2 border-[hsl(var(--secondary))] bg-[hsl(var(--secondary))]/25 px-4 py-3 text-xs leading-relaxed"><b className="font-semibold">Petua kecil</b><br />Tulis seperti anda bercakap dengan seseorang yang anda hormati. Jelas, ringkas, dan yakin.</div>
             </section>
             <section id="preview-panel" className="fade-up delay-2 min-w-0">
-              <div className="mb-4 flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[.18em] text-[hsl(var(--muted-foreground))]">Pratonton dokumen</p><div className="flex gap-1"><button data-testid="button-copy-document" onClick={copy} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"><Clipboard size={14} /> Salin</button><button data-testid="button-print-document" onClick={() => window.print()} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"><Printer size={14} /> Cetak</button></div></div>
+              <div className="mb-4 flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[.18em] text-[hsl(var(--muted-foreground))]">Pratonton dokumen</p><div className="flex gap-1">{currentFilled && <button data-testid="button-save-document" onClick={save} className="flex items-center gap-1.5 px-2 py-1.5 text-xs font-semibold text-[hsl(var(--primary))] hover:text-[hsl(var(--foreground))]"><Check size={14} /> Simpan ke senarai</button>}<button data-testid="button-copy-document" onClick={copy} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"><Clipboard size={14} /> Salin</button><button data-testid="button-print-document" onClick={() => window.print()} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"><Printer size={14} /> Cetak / PDF</button></div></div>
               {doc === 'resume' ? <ResumePreview data={resume} /> : <ResignPreview data={resign} />}
             </section>
           </div>
@@ -233,7 +359,7 @@ function Avatar({ src, name, size }: { src?: string; name: string; size: 'small'
 }
 
 function ResignForm({ data, setField }: { data: Resign; setField: (field: string, value: string) => void }) {
-  return <div className="space-y-6"><div className="grid gap-5 sm:grid-cols-2"><Field label="Tarikh surat" value={data.date} onChange={(value) => setField('date', value)} placeholder="12 Jun 2024" /><Field label="Tarikh akhir bekerja" value={data.finalDay} onChange={(value) => setField('finalDay', value)} placeholder="12 Julai 2024" /></div><Field label="Kepada" value={data.recipient} onChange={(value) => setField('recipient', value)} placeholder="Nama pengurus atau HR" /><Field label="Nama syarikat" value={data.company} onChange={(value) => setField('company', value)} placeholder="Nama syarikat" /><Field label="Jawatan anda" value={data.role} onChange={(value) => setField('role', value)} placeholder="Jawatan semasa" /><Field label="Sebab ringkas" value={data.reason} onChange={(value) => setField('reason', value)} placeholder="Peluang baharu yang lebih selari..." multiline /><Field label="Nota penghargaan" value={data.message} onChange={(value) => setField('message', value)} placeholder="Terima kasih atas segala pengalaman..." multiline /></div>;
+  return <div className="space-y-6"><div className="grid gap-5 sm:grid-cols-2"><Field label="Tarikh surat" value={data.date} onChange={(value) => setField('date', value)} placeholder="12 Jun 2024" /><Field label="Tarikh akhir bekerja" value={data.finalDay} onChange={(value) => setField('finalDay', value)} placeholder="12 Julai 2024" /></div><Field label="Kepada" value={data.recipient} onChange={(value) => setField('recipient', value)} placeholder="Nama pengurus atau HR" /><Field label="Nama syarikat" value={data.company} onChange={(value) => setField('company', value)} placeholder="Nama syarikat" /><Field label="Jawatan anda" value={data.role} onChange={(value) => setField('role', value)} placeholder="Jawatan semasa" /><Field label="Nama anda" value={data.name} onChange={(value) => setField('name', value)} placeholder="Nama penuh anda" /><Field label="Sebab ringkas" value={data.reason} onChange={(value) => setField('reason', value)} placeholder="Peluang baharu yang lebih selari..." multiline /><Field label="Nota penghargaan" value={data.message} onChange={(value) => setField('message', value)} placeholder="Terima kasih atas segala pengalaman..." multiline /></div>;
 }
 
 function EmptyPreview({ type }: { type: DocType }) {
@@ -256,7 +382,7 @@ function PreviewBlock({ title, text }: { title: string; text: string }) {
 
 function ResignPreview({ data }: { data: Resign }) {
   if (!Object.values(data).some(Boolean)) return <EmptyPreview type="resign" />;
-  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-14"><div className="flex justify-between gap-5 border-b border-[hsl(var(--border))] pb-8"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--accent))]">Surat rasmi</p><h2 className="mt-2 font-[var(--app-font-serif)] text-2xl font-extrabold">Notis peletakan jawatan</h2></div><p className="text-right text-xs text-[hsl(var(--muted-foreground))]">{data.date || 'Tarikh surat'}</p></div><div className="mt-8 text-[15px] leading-8"><p className="font-semibold">{data.recipient || 'Nama penerima'}</p><p>{data.company || 'Nama syarikat'}</p><p className="mt-7">Tuan/Puan,</p><p className="mt-5 font-bold">PER: PELETAKAN JAWATAN SEBAGAI {data.role || 'JAWATAN'}</p><p className="mt-5">Dengan segala hormatnya, saya ingin memaklumkan keputusan untuk meletakkan jawatan sebagai <b>{data.role || 'jawatan semasa'}</b> di {data.company || 'syarikat ini'}. Hari terakhir saya ialah <b>{data.finalDay || 'tarikh akhir'}</b>.</p><p className="mt-5">{data.reason || 'Saya telah membuat keputusan untuk meneruskan peluang baharu.'}</p><p className="mt-5">{data.message || 'Terima kasih atas segala kepercayaan dan pengalaman yang telah diberikan.'}</p><p className="mt-7">Sekian, terima kasih.</p><p className="mt-8 font-semibold">{data.recipient || 'Nama anda'}</p></div></article>;
+  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-14"><div className="flex justify-between gap-5 border-b border-[hsl(var(--border))] pb-8"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--accent))]">Surat rasmi</p><h2 className="mt-2 font-[var(--app-font-serif)] text-2xl font-extrabold">Notis peletakan jawatan</h2></div><p className="text-right text-xs text-[hsl(var(--muted-foreground))]">{data.date || 'Tarikh surat'}</p></div><div className="mt-8 text-[15px] leading-8"><p className="font-semibold">{data.recipient || 'Nama penerima'}</p><p>{data.company || 'Nama syarikat'}</p><p className="mt-7">Tuan/Puan,</p><p className="mt-5 text-center font-bold">CC: PELETAKAN JAWATAN SEBAGAI {data.role || 'JAWATAN'}</p><p className="mt-5">Dengan segala hormatnya, saya ingin memaklumkan keputusan untuk meletakkan jawatan sebagai <b>{data.role || 'jawatan semasa'}</b> di {data.company || 'syarikat ini'}. Hari terakhir saya ialah <b>{data.finalDay || 'tarikh akhir'}</b>.</p><p className="mt-5">{data.reason || 'Saya telah membuat keputusan untuk meneruskan peluang baharu.'}</p><p className="mt-5">{data.message || 'Terima kasih atas segala kepercayaan dan pengalaman yang telah diberikan.'}</p><p className="mt-7">Sekian, terima kasih.</p><div className="mt-12 flex justify-end"><div className="w-48 text-center"><div className="h-px w-full bg-[hsl(var(--foreground))]" /><p className="mt-2 text-[10px] uppercase tracking-[.2em] text-[hsl(var(--muted-foreground))]">Tandatangan</p><p className="mt-4 font-semibold">{data.name || 'Nama anda'}</p></div></div></div></article>;
 }
 
 function Dialog({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
@@ -268,11 +394,112 @@ function resumeToText(data: Resume) {
 }
 
 function resignToText(data: Resign) {
-  return `NOTIS PELETAKAN JAWATAN\n\n${data.date}\n${data.recipient}\n${data.company}\n\nTuan/Puan,\n\nPER: PELETAKAN JAWATAN SEBAGAI ${data.role}\n\n${data.reason}\n\n${data.message}\n\nHari terakhir: ${data.finalDay}`;
+  return `NOTIS PELETAKAN JAWATAN\n\n${data.date}\n${data.recipient}\n${data.company}\n\nTuan/Puan,\n\nCC: PELETAKAN JAWATAN SEBAGAI ${data.role}\n\n${data.reason}\n\n${data.message}\n\nHari terakhir: ${data.finalDay}\n\nTandatangan:\n${data.name}`;
+}
+
+function SavedDocumentsPage() {
+  const [, navigate] = useLocation();
+  const [items, setItems] = useState<SavedDocument[]>(() => readSavedDocuments());
+  const [selectedItem, setSelectedItem] = useState<SavedDocument | null>(null);
+
+  const loadItem = (item: SavedDocument) => {
+    if (item.type === 'resume') {
+      localStorage.setItem('form-studio-doc', 'resume');
+      localStorage.setItem('form-studio-resume', JSON.stringify(item.data));
+    } else {
+      localStorage.setItem('form-studio-doc', 'resign');
+      localStorage.setItem('form-studio-resign', JSON.stringify(item.data));
+    }
+    navigate('/');
+  };
+
+  const removeItem = (id: string) => {
+    const next = items.filter((item) => item.id !== id);
+    writeSavedDocuments(next);
+    setItems(next);
+    if (selectedItem?.id === id) setSelectedItem(null);
+  };
+
+  const printItem = (item: SavedDocument) => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+    printWindow.document.write(renderDocumentHtml(item.type, item.data));
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => printWindow.print(), 300);
+  };
+
+  return (
+    <div className="app-noise min-h-[100dvh] bg-[hsl(var(--background))] px-6 py-8 md:px-10">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-8 flex flex-col gap-4 border-b border-[hsl(var(--border))] pb-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--muted-foreground))]">Arkib</p>
+            <h1 className="mt-2 font-[var(--app-font-serif)] text-3xl font-extrabold tracking-[-.04em]">Dokumen yang disimpan</h1>
+          </div>
+          <button onClick={() => navigate('/')} className="inline-flex items-center justify-center border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4 py-2 text-sm font-semibold text-[hsl(var(--foreground))] transition hover:bg-[hsl(var(--muted))]">Kembali ke editor</button>
+        </div>
+
+        {selectedItem && (
+          <div className="mb-8 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-[0_12px_28px_hsl(220_27%_16%/0.05)] md:p-6">
+            <div className="mb-4 flex flex-col gap-3 border-b border-[hsl(var(--border))] pb-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="font-mono text-[9px] uppercase tracking-[.18em] text-[hsl(var(--accent))]">Pratonton</p>
+                <h2 className="mt-2 text-xl font-bold">{selectedItem.title}</h2>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button onClick={() => loadItem(selectedItem)} className="bg-[hsl(var(--primary))] px-3 py-2 text-xs font-bold text-[hsl(var(--primary-foreground))]">Edit</button>
+                <button onClick={() => printItem(selectedItem)} className="border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-3 py-2 text-xs font-semibold text-[hsl(var(--foreground))]">Print</button>
+                <button onClick={() => printItem(selectedItem)} className="border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-3 py-2 text-xs font-semibold text-[hsl(var(--foreground))]">PDF</button>
+                <button onClick={() => setSelectedItem(null)} className="border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-3 py-2 text-xs font-semibold text-[hsl(var(--foreground))]">Tutup</button>
+              </div>
+            </div>
+            {selectedItem.type === 'resume' ? <ResumePreview data={selectedItem.data as Resume} /> : <ResignPreview data={selectedItem.data as Resign} />}
+          </div>
+        )}
+
+        {items.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-[hsl(var(--border))] bg-[hsl(var(--card))] p-10 text-center">
+            <p className="font-[var(--app-font-serif)] text-xl font-bold">Belum ada dokumen yang disimpan</p>
+            <p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">Simpan resume atau surat berhenti kerja anda, kemudian lihat senarai di sini.</p>
+            <button onClick={() => navigate('/')} className="mt-6 bg-[hsl(var(--primary))] px-4 py-2 text-sm font-bold text-[hsl(var(--primary-foreground))]">Buat dokumen baru</button>
+          </div>
+        ) : (
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {items.map((item) => (
+              <article key={item.id} className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-5 shadow-[0_12px_28px_hsl(220_27%_16%/0.05)]">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-mono text-[9px] uppercase tracking-[.18em] text-[hsl(var(--accent))]">{item.type === 'resume' ? 'Resume' : 'Resign'}</p>
+                    <h2 className="mt-2 text-lg font-bold">{item.title}</h2>
+                  </div>
+                  <span className="rounded-full border border-[hsl(var(--border))] px-2 py-1 text-[10px] uppercase tracking-[.12em] text-[hsl(var(--muted-foreground))]">{new Date(item.createdAt).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                </div>
+                <p className="mt-4 line-clamp-4 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
+                  {item.type === 'resume'
+                    ? ((item.data as Resume).about || 'Resume anda telah disimpan.')
+                    : ((item.data as Resign).reason || 'Surat berhenti kerja anda telah disimpan.')}
+                </p>
+                <div className="mt-5 grid grid-cols-2 gap-2 text-[11px] font-semibold">
+                  <button onClick={() => setSelectedItem(item)} className="bg-[hsl(var(--primary))] px-2 py-2 text-[hsl(var(--primary-foreground))]">View</button>
+                  <button onClick={() => loadItem(item)} className="border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-2 py-2 text-[hsl(var(--foreground))]">Edit</button>
+                </div>
+                <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] font-semibold">
+                  <button onClick={() => printItem(item)} className="border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-2 py-2 text-[hsl(var(--foreground))]">Print</button>
+                  <button onClick={() => printItem(item)} className="border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-2 py-2 text-[hsl(var(--foreground))]">PDF</button>
+                </div>
+                <button onClick={() => removeItem(item.id)} className="mt-3 w-full border border-[hsl(var(--destructive))]/30 bg-[hsl(var(--destructive))]/5 px-2 py-2 text-xs font-semibold text-[hsl(var(--destructive))]">Padam</button>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 function Router() {
-  return <RoutedErrorBoundary><Switch><Route path="/" component={Home} /><Route component={NotFound} /></Switch></RoutedErrorBoundary>;
+  return <RoutedErrorBoundary><Switch><Route path="/" component={Home} /><Route path="/saved" component={SavedDocumentsPage} /><Route component={NotFound} /></Switch></RoutedErrorBoundary>;
 }
 
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {

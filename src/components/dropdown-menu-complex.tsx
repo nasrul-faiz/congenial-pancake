@@ -91,13 +91,6 @@ export function DropdownMenuComplex({
             Cuba contoh
           </DropdownMenuItem>
           <DropdownMenuItem
-            onSelect={onSave}
-            className={saved ? 'text-emerald-600 focus:text-emerald-700' : ''}
-          >
-            <Save />
-            {saved ? 'Disimpan' : 'Simpan'}
-          </DropdownMenuItem>
-          <DropdownMenuItem
             onSelect={onReset}
             className="text-destructive/90 focus:text-destructive"
           >
