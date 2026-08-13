@@ -214,6 +214,7 @@ function Home() {
   const [toast, setToast] = useState('');
   const [demoVisible, setDemoVisible] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('form-studio-doc', doc);
@@ -274,24 +275,24 @@ function Home() {
 
   return (
     <div className="app-noise min-h-[100dvh] bg-[hsl(var(--background))]">
-      <aside className={`no-print fixed inset-y-0 left-0 z-40 flex w-[290px] flex-col bg-[hsl(var(--sidebar))] px-6 py-7 text-[hsl(var(--sidebar-foreground))] transition-transform duration-300 lg:translate-x-0 ${mobileNav ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`no-print fixed inset-y-0 left-0 z-40 flex w-[270px] flex-col bg-[hsl(var(--sidebar))] px-5 py-6 text-[hsl(var(--sidebar-foreground))] transition-transform duration-300 lg:translate-x-0 ${mobileNav ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center justify-between px-2">
           <button data-testid="button-brand" onClick={() => switchDoc('resume')} className="flex items-center gap-3 text-left">
-            <span className="flex h-9 w-9 items-center justify-center bg-[hsl(var(--secondary))] text-[hsl(var(--secondary-foreground))]"><Sparkles size={18} strokeWidth={2.5} /></span>
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[hsl(var(--secondary))] text-[hsl(var(--secondary-foreground))]"><Sparkles size={18} strokeWidth={2.5} /></span>
             <span><b className="font-[var(--app-font-serif)] text-lg tracking-tight">Form Studio</b><small className="block font-mono text-[9px] uppercase tracking-[.18em] text-[hsl(var(--sidebar-foreground))]/45">ruang kerja peribadi</small></span>
           </button>
           <button data-testid="button-close-nav" onClick={() => setMobileNav(false)} className="text-[hsl(var(--sidebar-foreground))]/60 lg:hidden"><X size={19} /></button>
         </div>
         <div className="mt-12 px-2"><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--sidebar-foreground))]/40">Form</p></div>
         <nav aria-label="Menu Form" className="mt-4 ml-2 space-y-1.5 border-l border-[hsl(var(--sidebar-foreground))]/10 pl-2">
-          <button data-testid="button-switch-resume" onClick={() => switchDoc('resume')} className={`group flex w-full items-center gap-3 px-3.5 py-3.5 text-left text-sm transition ${doc === 'resume' ? 'bg-[hsl(var(--sidebar-foreground))]/10 text-[hsl(var(--sidebar-foreground))]' : 'text-[hsl(var(--sidebar-foreground))]/70 hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]'}`}>
-            <FileUser size={18} className={doc === 'resume' ? 'text-[hsl(var(--secondary))]' : ''} /><span className="flex-1">Resume</span><ArrowUpRight size={14} className="opacity-40" />
+          <button data-testid="button-switch-resume" onClick={() => switchDoc('resume')} className={`group flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm transition ${doc === 'resume' ? 'bg-[hsl(var(--sidebar-foreground))]/10 text-[hsl(var(--sidebar-foreground))]' : 'text-[hsl(var(--sidebar-foreground))]/70 hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]'}`}>
+            <FileUser size={17} className={doc === 'resume' ? 'text-[hsl(var(--secondary))]' : ''} /><span className="flex-1">Resume</span><ArrowUpRight size={14} className="opacity-40" />
           </button>
-          <button data-testid="button-switch-resign" onClick={() => switchDoc('resign')} className={`group flex w-full items-center gap-3 px-3.5 py-3.5 text-left text-sm transition ${doc === 'resign' ? 'bg-[hsl(var(--sidebar-foreground))]/10 text-[hsl(var(--sidebar-foreground))]' : 'text-[hsl(var(--sidebar-foreground))]/70 hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]'}`}>
-            <FileText size={18} className={doc === 'resign' ? 'text-[hsl(var(--secondary))]' : ''} /><span className="flex-1">Resign</span><ArrowUpRight size={14} className="opacity-40" />
+          <button data-testid="button-switch-resign" onClick={() => switchDoc('resign')} className={`group flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm transition ${doc === 'resign' ? 'bg-[hsl(var(--sidebar-foreground))]/10 text-[hsl(var(--sidebar-foreground))]' : 'text-[hsl(var(--sidebar-foreground))]/70 hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]'}`}>
+            <FileText size={17} className={doc === 'resign' ? 'text-[hsl(var(--secondary))]' : ''} /><span className="flex-1">Resign</span><ArrowUpRight size={14} className="opacity-40" />
           </button>
-          <button data-testid="button-open-saved" onClick={() => window.location.assign('/saved')} className="group flex w-full items-center gap-3 px-3.5 py-3.5 text-left text-sm text-[hsl(var(--sidebar-foreground))]/70 transition hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]">
-            <FileText size={18} /><span className="flex-1">Disimpan</span><ArrowUpRight size={14} className="opacity-40" />
+          <button data-testid="button-open-saved" onClick={() => window.location.assign('/saved')} className="group flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm text-[hsl(var(--sidebar-foreground))]/70 transition hover:bg-[hsl(var(--sidebar-foreground))]/5 hover:text-[hsl(var(--sidebar-foreground))]">
+            <FileText size={17} /><span className="flex-1">Disimpan</span><ArrowUpRight size={14} className="opacity-40" />
           </button>
         </nav>
         <div className="mt-auto border-t border-[hsl(var(--sidebar-foreground))]/10 pt-5">
@@ -300,8 +301,8 @@ function Home() {
         </div>
       </aside>
       {mobileNav && <button data-testid="button-overlay-nav" onClick={() => setMobileNav(false)} className="no-print fixed inset-0 z-30 bg-[hsl(var(--foreground))]/40 lg:hidden" aria-label="Tutup navigasi" />}
-      <main className="min-h-[100dvh] lg:pl-[290px]">
-        <header className="no-print sticky top-0 z-20 flex h-[82px] items-center justify-between border-b border-[hsl(var(--border))] bg-[hsl(var(--background))] px-6 md:px-10">
+      <main className="min-h-[100dvh] lg:pl-[270px]">
+        <header className="no-print sticky top-0 z-20 flex h-[74px] items-center justify-between border-b border-[hsl(var(--border))] bg-[hsl(var(--background))]/90 px-5 backdrop-blur-sm md:px-8">
           <button data-testid="button-open-nav" onClick={() => setMobileNav(true)} className="text-[hsl(var(--muted-foreground))] lg:hidden"><Menu size={22} /></button>
           <div className="ml-auto flex items-center gap-2">
             <DropdownMenuComplex
@@ -312,24 +313,35 @@ function Home() {
             />
           </div>
         </header>
-        <div className="mx-auto max-w-[1500px] px-6 py-9 md:px-10 md:py-12">
-          <div className="fade-up flex flex-col justify-between gap-5 border-b border-[hsl(var(--border))] pb-8 md:flex-row md:items-end">
-            <div><h1 className="font-[var(--app-font-serif)] text-2xl font-extrabold tracking-[-.04em] md:text-[2.25rem]">{title}</h1><p className="mt-2 text-sm text-[hsl(var(--muted-foreground))] md:text-base">{subtitle}</p></div>
+        <div className="mx-auto max-w-[1500px] px-5 py-7 md:px-8 md:py-10">
+          <div className="fade-up flex flex-col justify-between gap-4 border-b border-[hsl(var(--border))] pb-6 md:flex-row md:items-end">
+            <div><h1 className="font-[var(--app-font-serif)] text-[2rem] font-extrabold tracking-[-.04em] md:text-[2.4rem]">{title}</h1><p className="mt-2 text-sm text-[hsl(var(--muted-foreground))] md:text-[0.95rem]">{subtitle}</p></div>
           </div>
-          <div className="mt-10 grid gap-12 xl:grid-cols-[minmax(380px,500px)_minmax(540px,1fr)]">
-            <section className="fade-up delay-1 space-y-8">
-              <div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[.18em] text-[hsl(var(--muted-foreground))]">Maklumat {doc === 'resume' ? 'utama' : 'surat'}</p><span className="font-mono text-[10px] text-[hsl(var(--muted-foreground))]">{currentFilled ? '01 / 02' : '00 / 02'}</span></div>
+          <div className="mt-8 max-w-[760px]">
+            <section className="fade-up delay-1">
+              <div className="mb-5 flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[.18em] text-[hsl(var(--muted-foreground))]">Maklumat {doc === 'resume' ? 'utama' : 'surat'}</p><span className="font-mono text-[10px] text-[hsl(var(--muted-foreground))]">{currentFilled ? '01 / 02' : '00 / 02'}</span></div>
               {doc === 'resume' ? <ResumeForm data={resume} setField={setField} setProfilePicture={setProfilePicture} /> : <ResignForm data={resign} setField={setField} />}
-              <div className="border-l-2 border-[hsl(var(--secondary))] bg-[hsl(var(--secondary))]/25 px-4 py-3 text-xs leading-relaxed"><b className="font-semibold">Petua kecil</b><br />Tulis seperti anda bercakap dengan seseorang yang anda hormati. Jelas, ringkas, dan yakin.</div>
-            </section>
-            <section id="preview-panel" className="fade-up delay-2 min-w-0">
-              <div className="mb-4 flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[.18em] text-[hsl(var(--muted-foreground))]">Pratonton dokumen</p><div className="flex gap-1">{currentFilled && <button data-testid="button-save-document" onClick={save} className="flex items-center gap-1.5 px-2 py-1.5 text-xs font-semibold text-[hsl(var(--primary))] hover:text-[hsl(var(--foreground))]"><Check size={14} /> Simpan ke senarai</button>}<button data-testid="button-copy-document" onClick={copy} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"><Clipboard size={14} /> Salin</button><button data-testid="button-print-document" onClick={() => window.print()} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"><Printer size={14} /> Cetak / PDF</button></div></div>
-              {doc === 'resume' ? <ResumePreview data={resume} /> : <ResignPreview data={resign} />}
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <button data-testid="button-create-document" onClick={save} className="inline-flex items-center justify-center rounded-xl bg-[hsl(var(--primary))] px-4 py-2.5 text-sm font-bold text-[hsl(var(--primary-foreground))] shadow-sm transition hover:opacity-95">
+                  Create
+                </button>
+                <button data-testid="button-preview-document" onClick={() => setPreviewOpen(true)} className="inline-flex items-center justify-center rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4 py-2.5 text-sm font-semibold text-[hsl(var(--foreground))] transition hover:bg-[hsl(var(--muted))]">
+                  Preview
+                </button>
+              </div>
+              <div className="mt-6 border-l-2 border-[hsl(var(--secondary))] bg-[hsl(var(--secondary))]/20 px-4 py-3 text-xs leading-relaxed text-[hsl(var(--foreground))] shadow-sm"><b className="font-semibold">Petua kecil</b><br />Tulis seperti anda bercakap dengan seseorang yang anda hormati. Jelas, ringkas, dan yakin.</div>
             </section>
           </div>
         </div>
       </main>
       {toast && <div data-testid="status-toast" className="no-print fixed bottom-5 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 bg-[hsl(var(--foreground))] px-4 py-3 text-xs font-semibold text-[hsl(var(--background))] shadow-xl"><Check size={15} className="text-[hsl(var(--secondary))]" /> {toast}</div>}
+      {previewOpen && (
+        <Dialog title={doc === 'resume' ? 'Preview Resume' : 'Preview Surat Berhenti Kerja'} onClose={() => setPreviewOpen(false)}>
+          <div className="mx-auto flex h-full w-full max-w-[1200px] items-start justify-center overflow-auto px-2 py-3 sm:px-5 sm:py-5">
+            {doc === 'resume' ? <ResumePreview data={resume} /> : <ResignPreview data={resign} />}
+          </div>
+        </Dialog>
+      )}
       {demoVisible && <Dialog title="Mulakan dengan contoh?" onClose={() => setDemoVisible(false)}><p className="text-sm leading-relaxed text-[hsl(var(--muted-foreground))]">Kami akan isi ruang ini dengan contoh yang realistik. Anda boleh ubah atau padam semua maklumat selepas itu.</p><div className="mt-6 flex justify-end gap-2"><button data-testid="button-cancel-demo" onClick={() => setDemoVisible(false)} className="px-4 py-2 text-xs font-semibold text-[hsl(var(--muted-foreground))]">Batal</button><button data-testid="button-confirm-demo" onClick={loadDemo} className="bg-[hsl(var(--primary))] px-4 py-2 text-xs font-bold text-[hsl(var(--primary-foreground))]">Muatkan contoh</button></div></Dialog>}
       {showHelp && <Dialog title="Cara menggunakan Form Studio" onClose={() => setShowHelp(false)}><div className="space-y-4 text-sm text-[hsl(var(--muted-foreground))]"><p><b className="text-[hsl(var(--foreground))]">1. Pilih dokumen</b><br />Tukar antara resume interview dan surat berhenti kerja di menu kiri.</p><p><b className="text-[hsl(var(--foreground))]">2. Isi maklumat</b><br />Taip pada ruang di sebelah kiri dan lihat perubahan pada pratonton secara langsung.</p><p><b className="text-[hsl(var(--foreground))]">3. Hantar dengan yakin</b><br />Salin kandungan atau cetak sebagai PDF. Data anda kekal pada peranti ini.</p></div></Dialog>}
     </div>
@@ -338,7 +350,7 @@ function Home() {
 
 function Field({ label, value, onChange, placeholder, multiline = false }: { label: string; value: string; onChange: (value: string) => void; placeholder: string; multiline?: boolean }) {
   const Tag = multiline ? 'textarea' : 'input';
-  return <label className="block"><span className="mb-2.5 block text-xs font-bold">{label}</span><Tag data-testid={`input-${label.toLowerCase().replace(/\s+/g, '-')}`} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} className={`w-full border border-[hsl(var(--input))] bg-[hsl(var(--card))] px-4 py-3.5 text-sm outline-none transition placeholder:text-[hsl(var(--muted-foreground))]/60 focus:border-[hsl(var(--primary))] focus:ring-2 focus:ring-[hsl(var(--primary))]/10 ${multiline ? 'min-h-[120px] resize-y leading-relaxed' : 'h-12'} ${multiline ? '' : 'text-base'}`} /></label>;
+  return <label className="block"><span className="mb-2 block text-[11px] font-bold uppercase tracking-[.12em] text-[hsl(var(--muted-foreground))]">{label}</span><Tag data-testid={`input-${label.toLowerCase().replace(/\s+/g, '-')}`} value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} className={`w-full border border-[hsl(var(--input))] bg-[hsl(var(--card))] px-3.5 py-2.5 text-sm outline-none transition placeholder:text-[hsl(var(--muted-foreground))]/60 focus:border-[hsl(var(--primary))] focus:ring-2 focus:ring-[hsl(var(--primary))]/10 ${multiline ? 'min-h-[120px] resize-y leading-relaxed' : 'h-11'} ${multiline ? '' : 'text-sm'}`} /></label>;
 }
 
 function ResumeForm({ data, setField, setProfilePicture }: { data: Resume; setField: (field: string, value: string) => void; setProfilePicture: (value: string) => void }) {
@@ -359,7 +371,7 @@ function Avatar({ src, name, size }: { src?: string; name: string; size: 'small'
 }
 
 function ResignForm({ data, setField }: { data: Resign; setField: (field: string, value: string) => void }) {
-  return <div className="space-y-6"><div className="grid gap-5 sm:grid-cols-2"><Field label="Tarikh surat" value={data.date} onChange={(value) => setField('date', value)} placeholder="12 Jun 2024" /><Field label="Tarikh akhir bekerja" value={data.finalDay} onChange={(value) => setField('finalDay', value)} placeholder="12 Julai 2024" /></div><Field label="Kepada" value={data.recipient} onChange={(value) => setField('recipient', value)} placeholder="Nama pengurus atau HR" /><Field label="Nama syarikat" value={data.company} onChange={(value) => setField('company', value)} placeholder="Nama syarikat" /><Field label="Jawatan anda" value={data.role} onChange={(value) => setField('role', value)} placeholder="Jawatan semasa" /><Field label="Nama anda" value={data.name} onChange={(value) => setField('name', value)} placeholder="Nama penuh anda" /><Field label="Sebab ringkas" value={data.reason} onChange={(value) => setField('reason', value)} placeholder="Peluang baharu yang lebih selari..." multiline /><Field label="Nota penghargaan" value={data.message} onChange={(value) => setField('message', value)} placeholder="Terima kasih atas segala pengalaman..." multiline /></div>;
+  return <div className="space-y-5"><div className="grid gap-4 sm:grid-cols-2"><Field label="Tarikh surat" value={data.date} onChange={(value) => setField('date', value)} placeholder="12 Jun 2024" /><Field label="Tarikh akhir bekerja" value={data.finalDay} onChange={(value) => setField('finalDay', value)} placeholder="12 Julai 2024" /></div><Field label="Kepada" value={data.recipient} onChange={(value) => setField('recipient', value)} placeholder="Nama pengurus atau HR" /><Field label="Nama syarikat" value={data.company} onChange={(value) => setField('company', value)} placeholder="Nama syarikat" /><Field label="Jawatan anda" value={data.role} onChange={(value) => setField('role', value)} placeholder="Jawatan semasa" /><Field label="Nama anda" value={data.name} onChange={(value) => setField('name', value)} placeholder="Nama penuh anda" /><Field label="Sebab ringkas" value={data.reason} onChange={(value) => setField('reason', value)} placeholder="Peluang baharu yang lebih selari..." multiline /><Field label="Nota penghargaan" value={data.message} onChange={(value) => setField('message', value)} placeholder="Terima kasih atas segala pengalaman..." multiline /></div>;
 }
 
 function EmptyPreview({ type }: { type: DocType }) {
@@ -368,7 +380,7 @@ function EmptyPreview({ type }: { type: DocType }) {
 
 function ResumePreview({ data }: { data: Resume }) {
   if (!Object.values(data).some(Boolean)) return <EmptyPreview type="resume" />;
-  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-14"><div className="border-b-2 border-[hsl(var(--foreground))] pb-7"><div className="flex items-start gap-3"><div className="w-20 shrink-0"><Avatar src={data.profilePicture} name={data.name || 'NA'} size="large" /></div><div className="min-w-0 pt-1"><h2 data-testid="text-preview-name" className="font-[var(--app-font-serif)] text-lg font-bold">{data.name || 'Nama penuh anda'}</h2><p className="mt-1 text-base font-semibold text-[hsl(var(--primary))]">{data.role || 'Jawatan sasaran'}</p></div></div><div className="mt-5 text-[10px] leading-tight text-[hsl(var(--muted-foreground))]"><div className="flex flex-wrap items-center gap-x-5 gap-y-2"><ContactLine icon={<Phone size={11} />} value={data.phone} fallback="Telefon" /><ContactLine icon={<Mail size={11} />} value={data.email} fallback="Email" /></div><div className="mt-2"><ContactLine icon={<MapPin size={11} />} value={data.location} fallback="Alamat" /></div></div></div><PreviewBlock title="Profil" text={data.about} /><PreviewBlock title="Pendidikan" text={data.education} /><PreviewBlock title="Pengalaman" text={data.experience} /><PreviewBlock title="Kemahiran" text={data.skills} /></article>;
+  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-10"><div className="border-b-2 border-[hsl(var(--foreground))] pb-6"><div className="flex items-start gap-3"><div className="w-20 shrink-0"><Avatar src={data.profilePicture} name={data.name || 'NA'} size="large" /></div><div className="min-w-0 pt-1"><h2 data-testid="text-preview-name" className="font-[var(--app-font-serif)] text-xl font-bold">{data.name || 'Nama penuh anda'}</h2><p className="mt-1 text-base font-semibold text-[hsl(var(--primary))]">{data.role || 'Jawatan sasaran'}</p></div></div><div className="mt-5 text-[10px] leading-tight text-[hsl(var(--muted-foreground))]"><div className="flex flex-wrap items-center gap-x-5 gap-y-2"><ContactLine icon={<Phone size={11} />} value={data.phone} fallback="Telefon" /><ContactLine icon={<Mail size={11} />} value={data.email} fallback="Email" /></div><div className="mt-2"><ContactLine icon={<MapPin size={11} />} value={data.location} fallback="Alamat" /></div></div></div><PreviewBlock title="Profil" text={data.about} /><PreviewBlock title="Pendidikan" text={data.education} /><PreviewBlock title="Pengalaman" text={data.experience} /><PreviewBlock title="Kemahiran" text={data.skills} /></article>;
 }
 
 function ContactLine({ icon, value, fallback }: { icon: ReactNode; value: string; fallback: string }) {
@@ -382,11 +394,24 @@ function PreviewBlock({ title, text }: { title: string; text: string }) {
 
 function ResignPreview({ data }: { data: Resign }) {
   if (!Object.values(data).some(Boolean)) return <EmptyPreview type="resign" />;
-  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-14"><div className="flex justify-between gap-5 border-b border-[hsl(var(--border))] pb-8"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--accent))]">Surat rasmi</p><h2 className="mt-2 font-[var(--app-font-serif)] text-2xl font-extrabold">Notis peletakan jawatan</h2></div><p className="text-right text-xs text-[hsl(var(--muted-foreground))]">{data.date || 'Tarikh surat'}</p></div><div className="mt-8 text-[15px] leading-8"><p className="font-semibold">{data.recipient || 'Nama penerima'}</p><p>{data.company || 'Nama syarikat'}</p><p className="mt-7">Tuan/Puan,</p><p className="mt-5 text-center font-bold">CC: PELETAKAN JAWATAN SEBAGAI {data.role || 'JAWATAN'}</p><p className="mt-5">Dengan segala hormatnya, saya ingin memaklumkan keputusan untuk meletakkan jawatan sebagai <b>{data.role || 'jawatan semasa'}</b> di {data.company || 'syarikat ini'}. Hari terakhir saya ialah <b>{data.finalDay || 'tarikh akhir'}</b>.</p><p className="mt-5">{data.reason || 'Saya telah membuat keputusan untuk meneruskan peluang baharu.'}</p><p className="mt-5">{data.message || 'Terima kasih atas segala kepercayaan dan pengalaman yang telah diberikan.'}</p><p className="mt-7">Sekian, terima kasih.</p><div className="mt-12 flex justify-end"><div className="w-48 text-center"><div className="h-px w-full bg-[hsl(var(--foreground))]" /><p className="mt-2 text-[10px] uppercase tracking-[.2em] text-[hsl(var(--muted-foreground))]">Tandatangan</p><p className="mt-4 font-semibold">{data.name || 'Nama anda'}</p></div></div></div></article>;
+  return <article className="print-page min-h-[620px] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-7 shadow-[0_16px_40px_hsl(220_27%_16%/0.08)] sm:p-10"><div className="flex justify-between gap-5 border-b border-[hsl(var(--border))] pb-6"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-[hsl(var(--accent))]">Surat rasmi</p><h2 className="mt-2 font-[var(--app-font-serif)] text-2xl font-extrabold">Notis peletakan jawatan</h2></div><p className="text-right text-xs text-[hsl(var(--muted-foreground))]">{data.date || 'Tarikh surat'}</p></div><div className="mt-8 text-[15px] leading-8"><p className="font-semibold">{data.recipient || 'Nama penerima'}</p><p>{data.company || 'Nama syarikat'}</p><p className="mt-7">Tuan/Puan,</p><p className="mt-5 text-center font-bold">CC: PELETAKAN JAWATAN SEBAGAI {data.role || 'JAWATAN'}</p><p className="mt-5">Dengan segala hormatnya, saya ingin memaklumkan keputusan untuk meletakkan jawatan sebagai <b>{data.role || 'jawatan semasa'}</b> di {data.company || 'syarikat ini'}. Hari terakhir saya ialah <b>{data.finalDay || 'tarikh akhir'}</b>.</p><p className="mt-5">{data.reason || 'Saya telah membuat keputusan untuk meneruskan peluang baharu.'}</p><p className="mt-5">{data.message || 'Terima kasih atas segala kepercayaan dan pengalaman yang telah diberikan.'}</p><p className="mt-10">Sekian, terima kasih.</p><div className="mt-20 flex justify-end"><div className="w-48 text-center"><div className="h-px w-full bg-[hsl(var(--foreground))]" /><p className="mt-2 text-[10px] uppercase tracking-[.2em] text-[hsl(var(--muted-foreground))]">Tandatangan</p><p className="mt-3 text-sm font-medium">{data.name || 'Nama anda'}</p></div></div></div></article>;
 }
 
 function Dialog({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
-  return <div className="no-print fixed inset-0 z-50 flex items-center justify-center bg-[hsl(var(--foreground))]/45 p-5"><div className="fade-up w-full max-w-md border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-6 shadow-2xl"><div className="flex items-start justify-between gap-5"><h2 className="font-[var(--app-font-serif)] text-xl font-extrabold">{title}</h2><button data-testid="button-close-dialog" onClick={onClose} className="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]" aria-label="Tutup dialog"><X size={18} /></button></div><div className="mt-4">{children}</div></div></div>;
+  return (
+    <div className="no-print fixed inset-0 z-50 flex items-center justify-center bg-[hsl(var(--foreground))]/60 p-2 backdrop-blur-[2px] sm:p-4">
+      <div className="fade-up flex h-[96vh] w-full max-w-[98vw] flex-col overflow-hidden rounded-[1.5rem] border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[0_30px_80px_hsl(220_27%_16%/0.25)]">
+        <div className="flex items-center justify-between gap-4 border-b border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4 py-3 sm:px-6">
+          <div>
+            <p className="font-mono text-[9px] uppercase tracking-[.18em] text-[hsl(var(--muted-foreground))]">Document preview</p>
+            <h2 className="mt-1 font-[var(--app-font-serif)] text-lg font-extrabold sm:text-xl">{title}</h2>
+          </div>
+          <button data-testid="button-close-dialog" onClick={onClose} className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[hsl(var(--border))] text-[hsl(var(--muted-foreground))] transition hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))]" aria-label="Tutup dialog"><X size={18} /></button>
+        </div>
+        <div className="h-[calc(96vh-72px)] overflow-auto bg-[linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.0))] p-2 sm:p-4">{children}</div>
+      </div>
+    </div>
+  );
 }
 
 function resumeToText(data: Resume) {
@@ -441,7 +466,7 @@ function SavedDocumentsPage() {
         </div>
 
         {selectedItem && (
-          <div className="mb-8 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-[0_12px_28px_hsl(220_27%_16%/0.05)] md:p-6">
+          <div className="mb-8">
             <div className="mb-4 flex flex-col gap-3 border-b border-[hsl(var(--border))] pb-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="font-mono text-[9px] uppercase tracking-[.18em] text-[hsl(var(--accent))]">Pratonton</p>
@@ -459,7 +484,7 @@ function SavedDocumentsPage() {
         )}
 
         {items.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[hsl(var(--border))] bg-[hsl(var(--card))] p-10 text-center">
+          <div className="p-10 text-center">
             <p className="font-[var(--app-font-serif)] text-xl font-bold">Belum ada dokumen yang disimpan</p>
             <p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">Simpan resume atau surat berhenti kerja anda, kemudian lihat senarai di sini.</p>
             <button onClick={() => navigate('/')} className="mt-6 bg-[hsl(var(--primary))] px-4 py-2 text-sm font-bold text-[hsl(var(--primary-foreground))]">Buat dokumen baru</button>
